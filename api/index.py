@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 import json
-from flask import Flask, render_template
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 # app.json.ensure_ascii = False
