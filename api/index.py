@@ -1,12 +1,14 @@
 import pandas as pd
 import requests
 import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import urllib.parse
+from flask import Flask, render_template
+
+app = Flask(__name__)
+# app.json.ensure_ascii = False
 
 def main(query_params):
-    startStation = query_params.get("起站", [None])[0]
-    endStation = query_params.get("迄站", [None])[0]
+    startStation = query_params.get("起站", [None])
+    endStation = query_params.get("迄站", [None])
 
     if startStation is None:
         response_data = {
@@ -99,32 +101,15 @@ def main(query_params):
 
     return response_data
 
-class MyRequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        # print(self.path)
-        # self.send_response(200)
-        # self.end_headers()
-        # self.wfile.write(b'Hello, world!')
-        # # self.wfile.write('Hello, world!'.encode('utf-8'))
-        # # return
+@app.route('/', methods=['GET'])
+def GET():
+    query_params = request.args.to_dict()
 
-        # 解析URL參數
-        parsed_path = urllib.parse.urlparse(self.path)
-        query_params = urllib.parse.parse_qs(parsed_path.query)
+    # 調用資料處理函式
+    response_data = main(query_params)
 
-        # 調用資料處理函式
-        response_data = main(query_params)
-
-        # 設置響應頭
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-
-        # 發送JSON響應
-        # self.wfile.write(json.dumps(response_data).encode('utf-8'))
-        self.wfile.write(json.dumps(response_data, ensure_ascii=False).encode('utf-8'))
+    # return jsonify(response_data)
+    return json.dumps(response_data, ensure_ascii=False).encode('utf-8')
 
 if __name__ == '__main__':
-    server = HTTPServer(("0.0.0.0", 8080), MyRequestHandler)
-    print("http://0.0.0.0:8080/")
-    server.serve_forever()
+    app.run()
