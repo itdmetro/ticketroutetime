@@ -66,7 +66,7 @@ def main(query_params):
     # print(ticket_tpekid)
 
     #讀取轉乘csv：
-    TravelTimetable = pd.read_csv("data/TravelTime2020.csv", header=0, sep = ',', dtype={"EntryStationID": "object", "ExitStationID": "object"})
+    TravelTimetable = pd.read_csv("TravelTime2020.csv", header=0, sep = ',', dtype={"EntryStationID": "object", "ExitStationID": "object"})
     # EntryStationID    EntryStationName    ExitStationID   ExitStationName TravelTime  PathC   PathE
     # 007   松山機場站   008 中山國中站   3   搭乘文湖線（往動物園） Take Wenhu Line（to Taipei Zoo）from Songshan Airport Station => Zhongshan Junior High School Station
 
