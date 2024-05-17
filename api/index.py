@@ -65,19 +65,23 @@ def main(query_params):
     # print(ticket_ntpekid)
     # print(ticket_tpekid)
 
-    #讀取轉乘csv：
-    TravelTimetable = pd.read_csv("data/TravelTime2020.csv", header=0, sep = ',', dtype={"EntryStationID": "object", "ExitStationID": "object"})
-    # EntryStationID    EntryStationName    ExitStationID   ExitStationName TravelTime  PathC   PathE
-    # 007   松山機場站   008 中山國中站   3   搭乘文湖線（往動物園） Take Wenhu Line（to Taipei Zoo）from Songshan Airport Station => Zhongshan Junior High School Station
+    if startStation == endStation:
+        TravelTime = "0"
+        PathC = "無須轉乘"
+    else:
+        #讀取轉乘csv：
+        TravelTimetable = pd.read_csv("data/TravelTime2020.csv", header=0, sep = ',', dtype={"EntryStationID": "object", "ExitStationID": "object"})
+        # EntryStationID    EntryStationName    ExitStationID   ExitStationName TravelTime  PathC   PathE
+        # 007   松山機場站   008 中山國中站   3   搭乘文湖線（往動物園） Take Wenhu Line（to Taipei Zoo）from Songshan Airport Station => Zhongshan Junior High School Station
 
-    # print(TravelTimetable.dtypes)
-    # print(TravelTimetable.columns)
-    # print(TravelTimetable.head())
+        # print(TravelTimetable.dtypes)
+        # print(TravelTimetable.columns)
+        # print(TravelTimetable.head())
 
-    TravelTime = TravelTimetable["TravelTime"][(TravelTimetable["EntryStationName"] == startStation) & (TravelTimetable["ExitStationName"] == endStation)].values[0]
-    PathC = TravelTimetable["PathC"][(TravelTimetable["EntryStationName"] == startStation) & (TravelTimetable["ExitStationName"] == endStation)].values[0]
-    #台北小巨蛋站
-    #港墘站
+        TravelTime = TravelTimetable["TravelTime"][(TravelTimetable["EntryStationName"] == startStation) & (TravelTimetable["ExitStationName"] == endStation)].values[0]
+        PathC = TravelTimetable["PathC"][(TravelTimetable["EntryStationName"] == startStation) & (TravelTimetable["ExitStationName"] == endStation)].values[0]
+        #台北小巨蛋站
+        #港墘站
 
     output = startStation+" 至 "+endStation+\
     "\n全票票價："+str(ticket_full)+\
