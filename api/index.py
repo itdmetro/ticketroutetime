@@ -22,12 +22,16 @@ def main(query_params):
         }
         return response_data
 
-    if "站" in startStation:
+    if "台北車站" == startStation:
+        APIstartStation = startStation
+    elif "站" in startStation:
         APIstartStation = startStation.replace("站","")
     else:
         APIstartStation = startStation
         startStation += "站"
-    if "站" in endStation:
+    if "台北車站" == endStation:
+        APIendStation = endStation
+    elif "站" in endStation:
         APIendStation = endStation.replace("站","")
     else:
         APIendStation = endStation
